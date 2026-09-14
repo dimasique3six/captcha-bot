@@ -1,0 +1,29 @@
+[Unit]
+Description=Telegram Captcha Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=captchabot
+Group=captchabot
+WorkingDirectory=/opt/captcha-bot
+# BOT_TOKEN и прочие настройки — см. .env.example
+EnvironmentFile=/opt/captcha-bot/.env
+ExecStart=/opt/captcha-bot/venv/bin/python /opt/captcha-bot/captcha_bot.py
+Restart=always
+RestartSec=5
+
+# Безопасность
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/captcha-bot
+
+# Логи
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
